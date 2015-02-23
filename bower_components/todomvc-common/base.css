@@ -232,6 +232,7 @@ label[for='toggle-all'] {
 	left: 34px;
 	padding: 0 4px;
 	background-color: #fcfcfc;
+	color: #ff0000;
 	/*color: #d00;*/
 	z-index: 10;
 	/* Mobile Safari */
@@ -273,6 +274,30 @@ label[for='toggle-all'] {
 	margin-left: 45px;
 	display: block;
 	line-height: 1.2;
+	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
+}
+
+#todo-list li.priority-btn label {
+	white-space: pre;
+	word-break: break-word;
+	padding: 15px 60px 15px 15px;
+	margin-left: 45px;
+	display: block;
+	line-height: 1.2;
+	color: #ff0000;
+	-webkit-transition: color 0.4s;
+	transition: color 0.4s;
+}
+
+#todo-list li.completed.priority-btn label {
+	white-space: pre;
+	word-break: break-word;
+	padding: 15px 60px 15px 15px;
+	margin-left: 45px;
+	display: block;
+	line-height: 1.2;
+	color: #ff0000;
 	-webkit-transition: color 0.4s;
 	transition: color 0.4s;
 }
