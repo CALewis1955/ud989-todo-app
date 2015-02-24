@@ -24,7 +24,7 @@ var app = app || {};
 			'keypress .edit': 'updateOnEnter',
 			'keydown .edit': 'revertOnEscape',
 			'blur .edit': 'close',
-			'click .priority-btn': 'toggleRedHighlight'
+			'click .priority-btn': 'editPriority'
 		},
 
 		// The TodoView listens for changes to its model, re-rendering. Since
@@ -72,14 +72,13 @@ var app = app || {};
 		toggleCompleted: function () {
 			this.model.toggle();
 		},
-
-		// Toggle the `"priority"` state of the model.
-		toggleRedHighlight: function() {
-			this.model.priorityToggle();
-			//console.log(this.$el);
-			//this.$el.toggleClass('priority');
+		
+		// Switch the priority box into `"editing"` mode, displaying the input field.
+		editPriority: function () {
+			this.$el.addClass('editPriority');
+			this.$input.focus();
 		},
-
+			
 		// Switch this view into `"editing"` mode, displaying the input field.
 		edit: function () {
 			this.$el.addClass('editing');
