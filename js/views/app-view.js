@@ -113,6 +113,9 @@ var app = app || {};
 
 		// If you hit return in the main input field, create new **Todo** model,
 		// persisting it to *localStorage*.
+
+		// When user begins to enter data, offer the user the option
+		// to set the priority.
 		createOnEnter: function (e) {
 			this.showPriorityFooter();
 			if (e.which === ENTER_KEY && this.$input.val().trim()) {
@@ -121,6 +124,7 @@ var app = app || {};
 				this.priorityValue = "";
 			};
 		},
+
 
 		showFilterFooter: function() {
 			var completed = app.todos.completed().length;
@@ -141,9 +145,10 @@ var app = app || {};
 				self.priorityValue = event.target.id;
 				if (self.$input.val()) {
 					app.todos.create(self.newAttributes());
-					self.$input.val('');
-					self.priorityValue = "";
-					};
+				};
+				console.log("still in showPriorityFooter");
+				self.$input.val('');
+				self.priorityValue = "";
 			});
 		},
 
