@@ -1,4 +1,4 @@
-/*global Backbone, jQuery, _, ENTER_KEY */
+	/*global Backbone, jQuery, _, ENTER_KEY */
 var app = app || {};
 
 (function ($) {
@@ -34,6 +34,7 @@ var app = app || {};
 			this.$main = this.$('#main');
 			this.$list = $('#todo-list');
 
+
 			this.listenTo(app.todos, 'add', this.addOne);
 			this.listenTo(app.todos, 'reset', this.addAll);
 			this.listenTo(app.todos, 'change:completed', this.filterOne);
@@ -44,22 +45,23 @@ var app = app || {};
 			// from being re-rendered for every model. Only renders when the 'reset'
 			// event is triggered at the end of the fetch.
 			app.todos.fetch({reset: true});
+
+
+
+
+
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
 		render: function () {
-			var completed = app.todos.completed().length;
 			var remaining = app.todos.remaining().length;
-
+			var priorityValue = "";
 			if (app.todos.length) {
 				this.$main.show();
 				this.$footer.show();
 
-				this.$footer.html(this.statsTemplate({
-					completed: completed,
-					remaining: remaining
-				}));
+				this.showFilterFooter();
 
 				this.$('#filters li a')
 					.removeClass('selected')
@@ -96,26 +98,61 @@ var app = app || {};
 
 		// Generate the attributes for a new Todo item.
 		newAttributes: function () {
+			if (this.priorityValue=="undefined" ||
+				this.priorityValue=="") {
+					this.priorityValue = "Low";
+				} else this.priorityValue = this.priorityValue;
+			console.log(this.priorityValue);
 			return {
 				title: this.$input.val().trim(),
 				order: app.todos.nextOrder(),
-				completed: false
+				completed: false,
+				priority: this.priorityValue
 			};
 		},
 
 		// If you hit return in the main input field, create new **Todo** model,
 		// persisting it to *localStorage*.
 		createOnEnter: function (e) {
+			this.showPriorityFooter();
 			if (e.which === ENTER_KEY && this.$input.val().trim()) {
 				app.todos.create(this.newAttributes());
 				this.$input.val('');
-			}
+				this.priorityValue = "";
+			};
 		},
+
+		showFilterFooter: function() {
+			var completed = app.todos.completed().length;
+			var remaining = app.todos.remaining().length;
+			this.$footer.html(this.statsTemplate({
+					completed: completed,
+					remaining: remaining
+				}));
+
+		},
+
+
+		showPriorityFooter: function(){
+			self = this;
+			$('#footer').html('<button id="dropdown"' +
+			'data-dropdown="#dropdown-1">Select Priority</button>'); 
+			$('.dropdown-menu').click(function(event) {
+				self.priorityValue = event.target.id;
+				if (self.$input.val()) {
+					app.todos.create(self.newAttributes());
+					self.$input.val('');
+					self.priorityValue = "";
+					};
+			});
+		},
+
+		
 
 		// Clear all completed todo items, destroying their models.
 		clearCompleted: function () {
 			_.invoke(app.todos.completed(), 'destroy');
-			return false;
+			return false;			
 		},
 
 		toggleAllComplete: function () {

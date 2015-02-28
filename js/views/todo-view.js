@@ -72,10 +72,13 @@ var app = app || {};
 		toggleCompleted: function () {
 			this.model.toggle();
 		},
-		
+
 		// Switch the priority box into `"editing"` mode, displaying the input field.
 		editPriority: function () {
 			this.$el.addClass('editPriority');
+			this.$el.children('#todoapp:before').css({content: this.model.get('priority')});
+			console.log(this.$el.children('#todoapp:before'));
+			console.log(this.model.get('priority'));
 			this.$input.focus();
 		},
 			
@@ -118,10 +121,11 @@ var app = app || {};
 
 		// If you hit `enter`, we're through editing the item.
 		updateOnEnter: function (e) {
+			console.log("Entered updateOnEnter");
 			if (e.which === ENTER_KEY) {
 				this.close();
 			}
-		},
+		},   
 
 		// If you're pressing `escape` we revert your change by simply leaving
 		// the `editing` state.

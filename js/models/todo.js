@@ -14,7 +14,7 @@ var app = app || {};
 		defaults: {
 			title: '',
 			completed: false,
-			priority: 3
+			priority: 'Low'
 		},
 
 		
